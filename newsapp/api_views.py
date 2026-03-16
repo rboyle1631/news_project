@@ -16,6 +16,13 @@ from .serializers import (
 # =========================================================
 
 class ArticleCreateView(generics.CreateAPIView):
+    """
+    API endpoint for creating new articles.
+
+    Only authenticated users with the *journalist* role may create articles.
+    The authenticated user is automatically assigned as the article author.
+    """
+
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
@@ -30,6 +37,15 @@ class ArticleCreateView(generics.CreateAPIView):
 # =========================================================
 
 class ArticleUpdateView(generics.UpdateAPIView):
+    """
+    API endpoint for updating an existing article.
+
+    Permissions
+    -----------
+    - Editors may update any article.
+    - Journalists may update only their own articles.
+    """
+
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
@@ -56,6 +72,15 @@ class ArticleUpdateView(generics.UpdateAPIView):
 # =========================================================
 
 class ArticleDeleteView(generics.DestroyAPIView):
+    """
+    API endpoint for deleting an article.
+
+    Permissions
+    -----------
+    - Editors may delete any article.
+    - Journalists may delete only their own articles.
+    """
+
     queryset = Article.objects.all()
 
     def perform_destroy(self, instance):
@@ -80,6 +105,13 @@ class ArticleDeleteView(generics.DestroyAPIView):
 # =========================================================
 
 class NewsletterCreateView(generics.CreateAPIView):
+    """
+    API endpoint for creating newsletters.
+
+    Only authenticated journalists may create newsletters.
+    The authenticated user becomes the newsletter author.
+    """
+
     queryset = Newsletter.objects.all()
     serializer_class = NewsletterSerializer
 
@@ -95,6 +127,15 @@ class NewsletterCreateView(generics.CreateAPIView):
 # =========================================================
 
 class NewsletterUpdateView(generics.UpdateAPIView):
+    """
+    API endpoint for updating newsletters.
+
+    Permissions
+    -----------
+    - Editors may update any newsletter.
+    - Journalists may update only newsletters they authored.
+    """
+
     queryset = Newsletter.objects.all()
     serializer_class = NewsletterSerializer
 
@@ -121,6 +162,15 @@ class NewsletterUpdateView(generics.UpdateAPIView):
 # =========================================================
 
 class NewsletterDeleteView(generics.DestroyAPIView):
+    """
+    API endpoint for deleting newsletters.
+
+    Permissions
+    -----------
+    - Editors may delete any newsletter.
+    - Journalists may delete only newsletters they authored.
+    """
+
     queryset = Newsletter.objects.all()
 
     def perform_destroy(self, instance):
@@ -145,6 +195,11 @@ class NewsletterDeleteView(generics.DestroyAPIView):
 # =========================================================
 
 class AddArticleToNewsletterView(generics.GenericAPIView):
+    """
+    API endpoint for adding an article to a newsletter.
+
+    Only the journalist who authored the newsletter may modify it.
+    """
 
     def post(self, request, pk):
         user = request.user
@@ -170,6 +225,9 @@ class AddArticleToNewsletterView(generics.GenericAPIView):
 # =========================================================
 
 class SubscribePublisherView(generics.GenericAPIView):
+    """
+    Subscribe the authenticated user to a publisher.
+    """
 
     def post(self, request, pk):
         user = request.user
@@ -183,6 +241,9 @@ class SubscribePublisherView(generics.GenericAPIView):
 
 
 class UnsubscribePublisherView(generics.GenericAPIView):
+    """
+    Unsubscribe the authenticated user from a publisher.
+    """
 
     def post(self, request, pk):
         user = request.user
@@ -200,6 +261,9 @@ class UnsubscribePublisherView(generics.GenericAPIView):
 # =========================================================
 
 class SubscribeJournalistView(generics.GenericAPIView):
+    """
+    Subscribe the authenticated user to a journalist.
+    """
 
     def post(self, request, pk):
         user = request.user
@@ -213,6 +277,9 @@ class SubscribeJournalistView(generics.GenericAPIView):
 
 
 class UnsubscribeJournalistView(generics.GenericAPIView):
+    """
+    Unsubscribe the authenticated user from a journalist.
+    """
 
     def post(self, request, pk):
         user = request.user
@@ -230,6 +297,12 @@ class UnsubscribeJournalistView(generics.GenericAPIView):
 # =========================================================
 
 class SubscribedArticlesView(generics.ListAPIView):
+    """
+    Return all articles from publishers and journalists the user follows.
+
+    Requires authentication.
+    """
+
     serializer_class = ArticleDetailSerializer
 
     def get_queryset(self):
@@ -253,7 +326,11 @@ class SubscribedArticlesView(generics.ListAPIView):
 # =========================================================
 
 class ApprovedSignalView(generics.GenericAPIView):
+    """
+    Dummy endpoint used for testing article approval signals.
+
+    Accepts POST requests and returns a success message.
+    """
 
     def post(self, request):
-        # Tests just expect this to accept POST and return 200
         return Response({"message": "Signal received"}, status=status.HTTP_200_OK)
