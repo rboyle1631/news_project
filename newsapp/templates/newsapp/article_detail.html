@@ -1,0 +1,9 @@
+<h1>{{ article.title }}</h1>
+<p>{{ article.content }}</p>
+<p>Author: {{ article.author }}</p>
+<p>Publisher: {{ article.publisher }}</p>
+<p>Approved: {{ article.approved }}</p>
+
+{% if user.has_perm('newsapp.change_article') %}
+    <a href="{% url 'approve_article' article.id %}">Approve Article</a>
+{% endif %}
