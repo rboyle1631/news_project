@@ -1,5 +1,6 @@
 News Platform API
-A role‑based news publishing API built with Django and Django REST Framework. The system supports article publishing, newsletter management, and reader subscription features, with strict permission rules enforced through automated tests.
+A role‑based news publishing API built with Django and Django REST Framework.
+The system supports article publishing, newsletter management, reader subscriptions, and an external “approved article” signal endpoint — all enforced through strict permission rules and automated tests.
 
 Features
 Articles
@@ -9,10 +10,10 @@ Editors can update and delete any article.
 
 Readers cannot create or modify articles.
 
-Articles may optionally belong to a publisher.
+Articles may optionally belong to a Publisher.
 
 Newsletters
-Journalists can create newsletters and manage their own newsletters.
+Journalists can create and manage their own newsletters.
 
 Editors can update and delete any newsletter.
 
@@ -34,39 +35,62 @@ Articles from subscribed publishers
 Articles from subscribed journalists
 
 Signals
-An endpoint exists to receive “approved” article signals.
+An endpoint exists to receive “approved article” signals from external systems.
 
 This project uses a dry‑run mode (no external API calls).
 
-API Endpoints (Plain Text Version)
+🔗 API Endpoints
 Articles
-POST /api/articles/create/ — Create an article (Journalist)
-
-PUT /api/articles/<id>/update/ — Update an article (Journalist: own, Editor: any)
-
-DELETE /api/articles/<id>/delete/ — Delete an article (Journalist: own, Editor: any)
-
+Method	Endpoint	Description	Roles
+POST	/api/articles/create/	Create an article	Journalist
+PUT	/api/articles//update/	Update an article	Journalist (own), Editor (any)
+DELETE	/api/articles//delete/	Delete an article	Journalist (own), Editor (any)
 Newsletters
-POST /api/newsletters/create/ — Create a newsletter (Journalist)
-
-PUT /api/newsletters/<id>/update/ — Update a newsletter (Journalist: own, Editor: any)
-
-DELETE /api/newsletters/<id>/delete/ — Delete a newsletter (Journalist: own, Editor: any)
-
-POST /api/newsletters/<id>/add-article/ — Add article to newsletter (Journalist: own)
-
+Method	Endpoint	Description	Roles
+POST	/api/newsletters/create/	Create a newsletter	Journalist
+PUT	/api/newsletters//update/	Update a newsletter	Journalist (own), Editor (any)
+DELETE	/api/newsletters//delete/	Delete a newsletter	Journalist (own), Editor (any)
+POST	/api/newsletters//add-article/	Add article to newsletter	Journalist (own)
 Publisher Subscriptions
-POST /api/publishers/<id>/subscribe/ — Subscribe to publisher (Reader)
-
-POST /api/publishers/<id>/unsubscribe/ — Unsubscribe from publisher (Reader)
-
+Method	Endpoint	Description	Roles
+POST	/api/publishers//subscribe/	Subscribe to publisher	Reader
+POST	/api/publishers//unsubscribe/	Unsubscribe from publisher	Reader
 Journalist Subscriptions
-POST /api/journalists/<id>/subscribe/ — Subscribe to journalist (Reader)
-
-POST /api/journalists/<id>/unsubscribe/ — Unsubscribe from journalist (Reader)
-
+Method	Endpoint	Description	Roles
+POST	/api/journalists//subscribe/	Subscribe to journalist	Reader
+POST	/api/journalists//unsubscribe/	Unsubscribe from journalist	Reader
 Reader Feed
-GET /api/articles/subscribed/ — Get articles from subscriptions (Reader)
-
+Method	Endpoint	Description	Roles
+GET	/api/articles/subscribed/	Get articles from subscriptions	Reader
 Signals
-POST /api/approved/ — Receive approved‑article signal
+Method	Endpoint	Description
+POST	/api/approved/	Receive approved‑article signal
+Docker Support
+This project includes a full Docker setup.
+
+Pull the image
+Code
+docker pull rboyle1631/news_project:latest
+Run the container
+Code
+docker run -p 8000:8000 rboyle1631/news_project:latest
+API will be available at:
+
+Code
+http://localhost:8000
+Project Structure
+Code
+news_project/
+newsapp/
+docs/
+Dockerfile
+requirements.txt
+manage.py
+📚 Documentation
+Sphinx documentation is included in the docs/ directory.
+
+Build docs:
+
+Code
+cd docs
+make html
