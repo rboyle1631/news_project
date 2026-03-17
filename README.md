@@ -39,7 +39,7 @@ An endpoint exists to receive “approved article” signals from external syste
 
 This project uses a dry‑run mode (no external API calls).
 
-🔗 API Endpoints
+API Endpoints
 Articles
 Method	Endpoint	Description	Roles
 POST	/api/articles/create/	Create an article	Journalist
@@ -86,7 +86,7 @@ docs/
 Dockerfile
 requirements.txt
 manage.py
-📚 Documentation
+Documentation
 Sphinx documentation is included in the docs/ directory.
 
 Build docs:
