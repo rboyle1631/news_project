@@ -66,7 +66,7 @@ docker pull rboyle1631/news_project:latest
 Run the container
 Code
 docker run -p 8000:8000 rboyle1631/news_project:latest
-Documentation (Sphinx)
+📚 Documentation (Sphinx)
 Documentation source files are located in:
 
 Code
@@ -139,6 +139,10 @@ POST	/api/journalists//unsubscribe/	Unsubscribe from journalist	Reader
 Reader Feed
 Method	Endpoint	Description	Roles
 GET	/api/articles/subscribed/	Get articles from subscriptions	Reader
+
+Signals
+Method	Endpoint	Description
+POST	/api/approved/	Receive approved‑article signal (dry‑run mode)
 
 Signals
 Method	Endpoint	Description
