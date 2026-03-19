@@ -1,149 +1,147 @@
-News Platform API
-A role‑based news publishing API built with Django and Django REST Framework.
-The platform supports article publishing, newsletter management, reader subscriptions, and an external “approved article” signal endpoint.
-Strict permission rules are enforced through automated tests.
+News Project — Django REST API
+A Django-based news management API featuring role-based access, JWT authentication, Sphinx documentation, and Dockerized deployment.
+This project was built as part of the HyperionDev Software Engineering Bootcamp (Capstone).
 
-Project Overview
-This API provides:
+Features
+Django REST Framework API
 
-Role‑based access control (Reader, Journalist, Editor)
+JWT Authentication (login, register)
 
-Article creation and editorial workflow
+Role-based permissions (Admin, Editor, Reader)
 
-Newsletter creation and article assignment
+CRUD operations for news articles
 
-Reader subscription system (publishers + journalists)
+MariaDB database support
 
-Combined subscription feed
+Dockerized backend
 
-Dry‑run signal endpoint for external integrations
+Full Sphinx documentation included in the repo
 
-Full Sphinx documentation
+Automated management command for role setup
 
-Docker support
-
-Separate Git branches for documentation and containerization
-
-Getting Started
-Clone the Repository
+Project Structure
 Code
-git clone https://github.com/rboyle1631/news_project.git
+news_project/
+    newsapp/
+    docs/
+        _build/html/   ← Generated Sphinx documentation
+    Dockerfile
+    requirements.txt
+    manage.py
+Installation (Local)
+1. Clone the repository
+Code
+git clone <your-repo-url>
 cd news_project
-Create & Activate a Virtual Environment
+2. Create and activate a virtual environment
 Code
 python -m venv venv
-.\venv\Scripts\activate
-Install Dependencies
+venv\Scripts\activate
+3. Install dependencies
 Code
 pip install -r requirements.txt
-Environment Variables
-Create a .env file in the project root:
+4. Create your .env file
+Copy the example:
 
 Code
-SECRET_KEY=your-secret-key
-DEBUG=True
-DATABASE_NAME=newsdb
-DATABASE_USER=root
-DATABASE_PASSWORD=yourpassword
-DATABASE_HOST=localhost
-DATABASE_PORT=3306
-(Adjust as needed for your MariaDB setup.)
+cp .env.example .env
+Update values as needed.
+Fallback values are included to prevent crashes if variables are missing.
 
-Run Migrations
+5. Run migrations
 Code
 python manage.py migrate
-Start the Development Server
+6. Create a superuser
+Code
+python manage.py createsuperuser
+7. Start the server
 Code
 python manage.py runserver
-API will be available at:
-
-Code
-http://localhost:8000
 Running with Docker
-Pull the image
+1. Build the image
 Code
-docker pull rboyle1631/news_project:latest
-Run the container
+docker build -t news_project .
+2. Run the container
 Code
-docker run -p 8000:8000 rboyle1631/news_project:latest
-📚 Documentation (Sphinx)
-Documentation source files are located in:
-
+docker run -p 8000:8000 news_project
+3. Access the API
 Code
-docs/
-To build the docs locally:
-
+http://localhost:8000/api/
+Running Tests
 Code
-cd docs
-.\make.bat html
-Generated HTML will appear in:
+python manage.py test
+Documentation
+Full Sphinx documentation is included in the repository:
 
 Code
-docs/_build/html/
-This folder is included in the repository for assessor review.
+docs/_build/html/index.html
+Open it in your browser to view:
 
-Git Branch Structure
-Branch	Purpose
-master	Main development branch
-docs	Sphinx documentation setup + generated HTML
-container	Dockerfile and containerization work
+Code
+file:///path/to/repo/docs/_build/html/index.html
+Authentication
+This project uses JWT authentication.
 
-All required branches are pushed to GitHub as per task instructions.
+Obtain Token
+Code
+POST /api/token/
+Refresh Token
+Code
+POST /api/token/refresh/
+Include the token in all authenticated requests:
 
-Roles & Permissions
-Reader
-Subscribe/unsubscribe to publishers
+Code
+Authorization: Bearer <your-token>
+📡 API Endpoints (Plain Text for Submission)
+Authentication
+Code
+POST /api/token/
+POST /api/token/refresh/
+Articles
+Code
+GET    /api/articles/
+POST   /api/articles/
+GET    /api/articles/<id>/
+PUT    /api/articles/<id>/
+DELETE /api/articles/<id>/
+Users / Roles
+Code
+POST /api/register/
+GET  /api/users/
+Management Commands
+Setup default roles
+Code
+python manage.py setup_roles
+Creates:
 
-Subscribe/unsubscribe to journalists
-
-View combined subscription feed
-
-Cannot create or modify content
-
-Journalist
-Create/update/delete own articles
-
-Create/update/delete own newsletters
-
-Add articles to own newsletters
+Admin
 
 Editor
-Update/delete any article
 
-Update/delete any newsletter
+Reader
 
-API Endpoints
-Articles
-Method	Endpoint	Description	Roles
-POST	/api/articles/create/	Create an article	Journalist
-PUT	/api/articles//update/	Update an article	Journalist (own), Editor (any)
-DELETE	/api/articles//delete/	Delete an article	Journalist (own), Editor (any)
+Environment Variables
+Your .env file should include:
 
-Newsletters
-Method	Endpoint	Description	Roles
-POST	/api/newsletters/create/	Create a newsletter	Journalist
-PUT	/api/newsletters//update/	Update a newsletter	Journalist (own), Editor (any)
-DELETE	/api/newsletters//delete/	Delete a newsletter	Journalist (own), Editor (any)
-POST	/api/newsletters//add-article/	Add article to newsletter	Journalist (own)
+Code
+SECRET_KEY=
+DEBUG=
+DATABASE_NAME=
+DATABASE_USER=
+DATABASE_PASSWORD=
+DATABASE_HOST=
+DATABASE_PORT=
+Fallback values are used if missing.
 
-Publisher Subscriptions
-Method	Endpoint	Description	Roles
-POST	/api/publishers//subscribe/	Subscribe to publisher	Reader
-POST	/api/publishers//unsubscribe/	Unsubscribe from publisher	Reader
+MariaDB Configuration
+If using MariaDB:
 
-Journalist Subscriptions
-Method	Endpoint	Description	Roles
-POST	/api/journalists//subscribe/	Subscribe to journalist	Reader
-POST	/api/journalists//unsubscribe/	Unsubscribe from journalist	Reader
-
-Reader Feed
-Method	Endpoint	Description	Roles
-GET	/api/articles/subscribed/	Get articles from subscriptions	Reader
-
-Signals
-Method	Endpoint	Description
-POST	/api/approved/	Receive approved‑article signal (dry‑run mode)
-
-Signals
-Method	Endpoint	Description
-POST	/api/approved/	Receive approved‑article signal (dry‑run mode)
+Code
+ENGINE=django.db.backends.mysql
+NAME=newsdb
+USER=root
+PASSWORD=yourpassword
+HOST=localhost
+PORT=3306
+Author
+Russell Boyle  
