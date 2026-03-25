@@ -1,11 +1,11 @@
-# 📰 News Project API
+# News Project API
 
 A Django REST Framework application for publishing articles, managing newsletters, subscribing to publishers or journalists, and receiving curated content.  
 Includes JWT authentication, role‑based access, Docker support, and full Sphinx documentation.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 - [Features](#-features)
 - [Installation](#️-installation)
 - [Docker Setup](#-docker-setup)
@@ -17,7 +17,7 @@ Includes JWT authentication, role‑based access, Docker support, and full Sphin
 
 ---
 
-## ✨ Features
+## Features
 - Create, update, and delete news articles  
 - Manage newsletters and attach articles  
 - Subscribe/unsubscribe to publishers and journalists  
@@ -57,7 +57,7 @@ py manage.py migrate
 py manage.py runserver
 ```
 
-## 🐳 Docker Setup
+## Docker Setup
 
 ### Build the Docker image
 ```bash
@@ -69,14 +69,14 @@ docker build -t news_project .
 docker run -p 8000:8000 news_project
 ```
 
-## 📚 Documentation
+## Documentation
 
 ### Open Sphinx HTML docs
 ```bash
 docs/_build/html/index.html
 ```
 
-## 🔐 Authentication
+## Authentication
 
 ### Obtain JWT token
 POST /api/token/
@@ -87,7 +87,7 @@ POST /api/token/refresh/
 ### Authorization header format
 Authorization: Bearer <your_token>
 
-## 🛠 API Endpoints
+## API Endpoints
 
 ### Article endpoints
 POST /api/articles/create/  
@@ -112,13 +112,13 @@ GET /api/articles/subscribed/
 ### Signals
 POST /api/approved/
 
-## 🧰 Management Commands
+## Management Commands
 
 ### Setup default roles
 ```bash
 python manage.py setup_roles
 ```
 
-## 👤 Author
+## Author
 
 Russell Boyle
